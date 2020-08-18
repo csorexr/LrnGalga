@@ -23,12 +23,13 @@ sprites.onOverlap(SpriteKind.Projectile, SpriteKind.Enemy, function (sprite, oth
     otherSprite.destroy(effects.fire, 100)
     sprite.destroy()
     info.changeScoreBy(1)
-    music.playTone(185, music.beat(BeatFraction.Half))
+    music.playTone(131, music.beat(BeatFraction.Half))
 })
 sprites.onOverlap(SpriteKind.Player, SpriteKind.Enemy, function (sprite, otherSprite) {
-    otherSprite.destroy()
+    sprite.startEffect(effects.spray, 200)
+    otherSprite.destroy(effects.ashes, 100)
     info.changeLifeBy(-1)
-    music.powerDown.play()
+    music.playMelody("B F D C - - - - ", 366)
 })
 let bogey: Sprite = null
 let projectile: Sprite = null
@@ -54,7 +55,7 @@ splane = sprites.create(img`
     `, SpriteKind.Player)
 splane.image.flipX()
 splane.setFlag(SpriteFlag.StayInScreen, true)
-info.setLife(3)
+info.setLife(5)
 controller.moveSprite(splane, 200, 200)
 game.onUpdateInterval(500, function () {
     bogey = sprites.create(img`
@@ -83,6 +84,6 @@ game.onUpdateInterval(500, function () {
         . . . . . . . . . . . . . . . . . . . . . . . . 
         . . . . . . . . . . . . . . . . . . . . . . . . 
         `, SpriteKind.Enemy)
-    bogey.setVelocity(-100, 0)
+    bogey.setVelocity(randint(-180, -60), 0)
     bogey.setPosition(180, randint(0, 120))
 })
